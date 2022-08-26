@@ -1,0 +1,29 @@
+service:
+  port: 8081
+
+spring:
+  application:
+    name: client-app
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/CLIENT_APP
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
+  liquibase:
+    change-log: classpath:db/changelog-master.xml
+
+  jackson:
+    date-format: yyyy-MM-dd'T'hh:mm:ss
+    serialization:
+      write_dates_as_timestamps: false
+
+
+spring.cloud.stream.kafka.binder.brokers:
+  - localhost:9092
+
+spring.cloud.stream.bindings.orderCreateChannel-out-0:
+  destination: order-create-channel
+spring.cloud.stream.kafka.bindings.orderCreateChannel-out-0:
+  producer.configuration.key.serializer: org.apache.kafka.common.serialization.StringSerializer
