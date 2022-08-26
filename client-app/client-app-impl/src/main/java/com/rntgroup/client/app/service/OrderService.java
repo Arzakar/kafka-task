@@ -44,4 +44,9 @@ public class OrderService {
         return orderMapper.toDto(createdOrder);
     }
 
+    public OrderDto getOrderById(Long id) {
+        Order order = orderRepository.findById(id).orElseThrow(() -> new RuntimeException("Not Found"));
+
+        return orderMapper.toDto(order);
+    }
 }

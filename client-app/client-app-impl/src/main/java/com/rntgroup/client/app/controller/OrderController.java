@@ -28,6 +28,6 @@ public class OrderController implements OrderApi {
 
     @Override
     public OrderStatus getStatus(Long id) {
-        return null;
+        return orderService.getOrderById(id).getStatus();
     }
 }
