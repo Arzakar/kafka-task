@@ -17,8 +17,6 @@
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>courier-app-api</module>
-		<module>courier-app-async-api</module>
 		<module>courier-app-impl</module>
 	</modules>
 

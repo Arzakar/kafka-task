@@ -10,8 +10,10 @@ spring:
     serialization:
       write_dates_as_timestamps: false
 
-spring.cloud.stream.kafka.binder.brokers:
-  - localhost:9092
+spring.cloud.stream.kafka.binder:
+  brokers: localhost:9092
+  min-partition-count: 3
+  auto-add-partitions: true
 
 spring.cloud.stream.function.definition: orderStatusChangeEventProcessor
 
@@ -19,6 +21,7 @@ spring.cloud.stream.bindings:
   orderStatusChangeEventProcessor-in-0:
     destination: order-status-change-events
     group: courier-app
+
   orderStatusChangeEventProcessor-out-0:
     destination: order-status-change-events
   orderStatusChanged-out-0:
