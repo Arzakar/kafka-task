@@ -58,6 +58,11 @@
             </dependency>
             <dependency>
                 <groupId>org.rntgroup</groupId>
+                <artifactId>palmetto-app-api</artifactId>
+                <version>${internal.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.rntgroup</groupId>
                 <artifactId>palmetto-app-async-api</artifactId>
                 <version>${internal.version}</version>
             </dependency>

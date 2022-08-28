@@ -1,4 +1,4 @@
-service:
+server:
   port: 8081
 
 spring:
@@ -23,7 +23,4 @@ spring:
 spring.cloud.stream.kafka.binder.brokers:
   - localhost:9092
 
-spring.cloud.stream.bindings.orderCreateChannel-out-0:
-  destination: order-create-channel
-spring.cloud.stream.kafka.bindings.orderCreateChannel-out-0:
-  producer.configuration.key.serializer: org.apache.kafka.common.serialization.StringSerializer
+spring.cloud.stream.bindings.orderCreated-out-0.destination: order-create-events
