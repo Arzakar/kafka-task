@@ -18,7 +18,6 @@
 
 	<modules>
 		<module>palmetto-app-api</module>
-		<module>palmetto-app-async-api</module>
 		<module>palmetto-app-impl</module>
 	</modules>
 
