@@ -21,14 +21,14 @@ services:
     depends_on:
       - zookeeper
 
-#  manager:
-#    image: sheepkiller/kafka-manager
-#    ports:
-#      - "9001:9001"
-#    environment:
-#      - ZK_HOSTS=zookeeper:2181
-#    depends_on:
-#      - zookeeper
+  #  manager:
+  #    image: sheepkiller/kafka-manager
+  #    ports:
+  #      - "9001:9001"
+  #    environment:
+  #      - ZK_HOSTS=zookeeper:2181
+  #    depends_on:
+  #      - zookeeper
 
   kafdrop:
     image: obsidiandynamics/kafdrop
@@ -39,14 +39,38 @@ services:
     depends_on:
       - kafka
 
-  client-postgres:
+  kafka-task-postgres:
     image: postgres:12-alpine
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: CLIENT_APP
-      PGDATA: "/var/lib/postgresql/data/docker-data/kafka-task-db"
+      PGDATA: "/var/lib/postgresql/data/.docker-data/kafka-task-db"
     ports:
       - "5432:5432"
     volumes:
       - .:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+#  client-postgres:
+#    image: postgres:12-alpine
+#    environment:
+#      POSTGRES_USER: postgres
+#      POSTGRES_PASSWORD: postgres
+#      POSTGRES_DB: CLIENT_APP
+#      PGDATA: "/var/lib/postgresql/data/.docker-data/client-app-db"
+#    ports:
+#      - "5432:5432"
+#    volumes:
+#      - .:/var/lib/postgresql/data
+#
+#  palmetto-postgres:
+#    image: postgres:12-alpine
+#    environment:
+#      POSTGRES_USER: postgres
+#      POSTGRES_PASSWORD: postgres
+#      POSTGRES_DB: PALMETTO_APP
+#      PGDATA: "/var/lib/postgresql/data/.docker-data/palmetto-app-db"
+#    ports:
+#      - "5433:5432"
+#    volumes:
+#      - .:/var/lib/postgresql/data

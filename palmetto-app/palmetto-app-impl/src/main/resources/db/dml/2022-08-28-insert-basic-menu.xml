@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet id="2022-08-28-insert-basic-menu" author="Степан Климашин" runOnChange="true">
+        <insert tableName="pizzas">
+            <column name="name" value="Пепперони"/>
+            <column name="compound" value="Колбаса, острый соус"/>
+            <column name="diameter" valueNumeric="30"/>
+            <column name="mass" valueNumeric="900"/>
+            <column name="price" valueNumeric="600"/>
+            <column name="cooking_duration" valueNumeric="10"/>
+        </insert>
+
+        <insert tableName="pizzas">
+            <column name="name" value="Карибская"/>
+            <column name="compound" value="Креветки, ананас, сладкий соус"/>
+            <column name="diameter" valueNumeric="25"/>
+            <column name="mass" valueNumeric="700"/>
+            <column name="price" valueNumeric="550"/>
+            <column name="cooking_duration" valueNumeric="8"/>
+        </insert>
+
+        <insert tableName="pizzas">
+            <column name="name" value="Домашняя"/>
+            <column name="compound" value="Курица, помидоры, майонезный соус"/>
+            <column name="diameter" valueNumeric="40"/>
+            <column name="mass" valueNumeric="1100"/>
+            <column name="price" valueNumeric="800"/>
+            <column name="cooking_duration" valueNumeric="12"/>
+        </insert>
+
+        <insert tableName="pizzas">
+            <column name="name" value="Детская"/>
+            <column name="compound" value="Ветчина, сыр, кетчуп"/>
+            <column name="diameter" valueNumeric="15"/>
+            <column name="mass" valueNumeric="400"/>
+            <column name="price" valueNumeric="350"/>
+            <column name="cooking_duration" valueNumeric="4"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>
