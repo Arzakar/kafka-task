@@ -8,6 +8,8 @@ import lombok.experimental.FieldDefaults;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -31,9 +33,7 @@ public class Order {
     @Column(name = "pizza_id", nullable = false)
     Long pizzaId;
 
-    @Column(name = "courier_id")
-    Long courierId;
-
+    @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     OrderStatus status;
 }

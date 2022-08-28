@@ -23,4 +23,11 @@ spring:
 spring.cloud.stream.kafka.binder.brokers:
   - localhost:9092
 
-spring.cloud.stream.bindings.orderCreated-out-0.destination: order-create-events
+spring.cloud.stream.function.definition: orderStatusChangeEventConsumer
+
+spring.cloud.stream.bindings:
+  orderCreated-out-0:
+    destination: order-create-events
+  orderStatusChangeEventConsumer-in-0:
+    destination: order-status-change-events
+    group: client-app

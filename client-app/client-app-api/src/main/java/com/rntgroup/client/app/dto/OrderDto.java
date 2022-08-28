@@ -14,7 +14,6 @@ public class OrderDto {
     Long id;
     Long customerId;
     Long pizzaId;
-    Long courierId;
     OrderStatus status;
 
 }
