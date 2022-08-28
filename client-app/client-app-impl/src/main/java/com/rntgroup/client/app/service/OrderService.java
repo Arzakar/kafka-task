@@ -3,6 +3,7 @@ package com.rntgroup.client.app.service;
 import com.rntgroup.client.app.dto.OrderDto;
 import com.rntgroup.client.app.entity.Order;
 import com.rntgroup.client.app.enumerate.OrderStatus;
+import com.rntgroup.client.app.event.OrderStatusChangeEvent;
 import com.rntgroup.client.app.mapper.OrderMapper;
 import com.rntgroup.client.app.repository.OrderRepository;
 import com.rntgroup.client.app.stream.OrderCreateEventSender;
@@ -33,6 +34,18 @@ public class OrderService {
         orderCreateEventSender.send(orderMapper.toEvent(order));
 
         return orderMapper.toDto(createdOrder);
+    }
+
+    @Transactional
+    public void updateOrderStatus(OrderStatusChangeEvent orderStatusChangeEvent) {
+        var id = orderStatusChangeEvent.getOrderId();
+        var newStatus = orderStatusChangeEvent.getNewOrderStatus();
+
+        orderRepository.findById(id).orElseThrow(() -> new RuntimeException("Not Found"));
+
+        orderRepository.updateOrderStatus(id, newStatus);
+
+        log.info(String.format("Статус заказа %d успешно изменён на %s", id, newStatus));
     }
 
     public OrderDto getOrderById(Long id) {
