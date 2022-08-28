@@ -1,0 +1,35 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: palmetto-app
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/PALMETTO_APP
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
+  liquibase:
+    change-log: classpath:db/changelog-master.xml
+
+  jackson:
+    date-format: yyyy-MM-dd'T'hh:mm:ss
+    serialization:
+      write_dates_as_timestamps: false
+
+
+spring.cloud.stream.kafka.binder.brokers:
+  - localhost:9092
+
+spring.cloud.stream.function.definition: orderCreateEventProcessor
+
+spring.cloud.stream.bindings:
+  orderCreateEventProcessor-in-0:
+    destination: order-create-events
+    group: palmetto-app
+  orderCreateEventProcessor-out-0:
+    destination: order-status-change-events
+  orderStatusChanged-out-0:
+    destination: order-status-change-events
