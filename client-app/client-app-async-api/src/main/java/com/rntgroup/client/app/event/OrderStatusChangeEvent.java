@@ -15,5 +15,6 @@ public class OrderStatusChangeEvent {
     Long pizzaId;
     OrderStatus prevOrderStatus;
     OrderStatus newOrderStatus;
+    String correlationId;
 
 }

@@ -19,15 +19,38 @@ spring:
     serialization:
       write_dates_as_timestamps: false
 
-
-spring.cloud.stream.kafka.binder.brokers:
-  - localhost:9092
+spring.cloud.stream.kafka:
+  binder:
+    brokers: localhost:9092
+    min-partition-count: 3
+    auto-add-partitions: true
+    required-acks: 1
+  bindings:
+    orderCreated-out-0.producer.configuration.key.serializer: org.apache.kafka.common.serialization.StringSerializer
 
 spring.cloud.stream.function.definition: orderStatusChangeEventConsumer
 
 spring.cloud.stream.bindings:
   orderCreated-out-0:
     destination: order-create-events
+
   orderStatusChangeEventConsumer-in-0:
     destination: order-status-change-events
     group: client-app
+    consumer:
+      instanceCount: 3
+      instanceIndex: 0
+
+  orderStatusChangeEventConsumer-in-1:
+    destination: order-status-change-events
+    group: client-app
+    consumer:
+      instanceCount: 3
+      instanceIndex: 1
+
+  orderStatusChangeEventConsumer-in-2:
+    destination: order-status-change-events
+    group: client-app
+    consumer:
+      instanceCount: 3
+      instanceIndex: 2

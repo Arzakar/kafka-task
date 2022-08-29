@@ -26,7 +26,7 @@ public class OrderStatusChangeEventConsumer implements Consumer<Message<OrderSta
         var currentStatusChangeEvent = inputMessage.getPayload();
 
         if (currentStatusChangeEvent.getNewOrderStatus().equals(OrderStatus.READY)) {
-            supplierService.supply(currentStatusChangeEvent.getOrderId(), currentStatusChangeEvent.getPizzaId());
+            supplierService.supply(currentStatusChangeEvent);
             log.info(String.format("Заказ с id = %s доставляется курьером", currentStatusChangeEvent.getOrderId()));
 
             var newStatusChangeEvent = currentStatusChangeEvent

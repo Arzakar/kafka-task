@@ -19,9 +19,13 @@ public class SupplierService {
 
     OrderStatusChangeEventSender orderStatusChangeEventSender;
 
-    public void supply(Long orderId, Long pizzaId) {
+    public void supply(OrderStatusChangeEvent orderStatusChangeEvent) {
         new Thread(() -> {
             try {
+                Long orderId = orderStatusChangeEvent.getOrderId();
+                Long pizzaId = orderStatusChangeEvent.getPizzaId();
+                String correlationId = orderStatusChangeEvent.getCorrelationId();
+
                 int timeForSupply = (int) (Math.random() * 5) + 5;
                 Thread.sleep(Duration.ofSeconds(timeForSupply).toMillis());
 
@@ -29,7 +33,8 @@ public class SupplierService {
                         .setOrderId(orderId)
                         .setPizzaId(pizzaId)
                         .setPrevOrderStatus(OrderStatus.IN_WAY)
-                        .setNewOrderStatus(OrderStatus.DELIVERED);
+                        .setNewOrderStatus(OrderStatus.DELIVERED)
+                        .setCorrelationId(correlationId);
 
                 orderStatusChangeEventSender.send(orderIsDelivered);
             } catch (InterruptedException e) {

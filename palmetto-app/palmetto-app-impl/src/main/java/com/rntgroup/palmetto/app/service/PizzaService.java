@@ -1,6 +1,7 @@
 package com.rntgroup.palmetto.app.service;
 
 import com.rntgroup.client.app.enumerate.OrderStatus;
+import com.rntgroup.client.app.event.OrderCreateEvent;
 import com.rntgroup.client.app.event.OrderStatusChangeEvent;
 import com.rntgroup.palmetto.app.dto.PizzaDto;
 import com.rntgroup.palmetto.app.entity.Pizza;
@@ -32,9 +33,13 @@ public class PizzaService {
         return pizzaMapper.toDto(pizza);
     }
 
-    public void cookPizza(Long orderId, Long pizzaId) {
+    public void cookPizza(OrderCreateEvent orderCreateEvent) {
         new Thread(() -> {
             try {
+                Long orderId = orderCreateEvent.getId();
+                Long pizzaId = orderCreateEvent.getPizzaId();
+                String correlationId = orderCreateEvent.getCorrelationId();
+
                 Integer cookingDuration = getPizzaById(pizzaId).getCookingDuration();
                 Thread.sleep(Duration.ofSeconds(cookingDuration).toMillis());
 
@@ -42,7 +47,8 @@ public class PizzaService {
                         .setOrderId(orderId)
                         .setPizzaId(pizzaId)
                         .setPrevOrderStatus(OrderStatus.COOKING)
-                        .setNewOrderStatus(OrderStatus.READY);
+                        .setNewOrderStatus(OrderStatus.READY)
+                        .setCorrelationId(correlationId);
 
                 orderStatusChangeEventSender.send(orderIsCooked);
             } catch (InterruptedException e) {
