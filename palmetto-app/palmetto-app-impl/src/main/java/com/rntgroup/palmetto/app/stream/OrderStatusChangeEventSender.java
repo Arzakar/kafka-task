@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.stream.function.StreamBridge;
+import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
@@ -21,6 +22,7 @@ public class OrderStatusChangeEventSender {
     public void send(OrderStatusChangeEvent orderStatusChangeEvent) {
         Message<OrderStatusChangeEvent> message = MessageBuilder
                 .withPayload(orderStatusChangeEvent)
+                .setHeader(KafkaHeaders.MESSAGE_KEY, orderStatusChangeEvent.getCorrelationId())
                 .build();
         boolean orderStatusChangeEventIsSent = streamBridge.send("orderStatusChanged-out-0", message);
 

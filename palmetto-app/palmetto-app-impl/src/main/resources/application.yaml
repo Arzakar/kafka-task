@@ -20,10 +20,14 @@ spring:
       write_dates_as_timestamps: false
 
 
-spring.cloud.stream.kafka.binder:
-  brokers: localhost:9092
-  min-partition-count: 3
-  auto-add-partitions: true
+spring.cloud.stream.kafka:
+  binder:
+    brokers: localhost:9092
+    min-partition-count: 3
+    auto-add-partitions: true
+  bindings:
+    orderCreateEventProcessor-out-0.producer.configuration.key.serializer: org.apache.kafka.common.serialization.StringSerializer
+    orderStatusChanged-out-0.producer.configuration.key.serializer: org.apache.kafka.common.serialization.StringSerializer
 
 spring.cloud.stream.function.definition: orderCreateEventProcessor
 
@@ -31,6 +35,23 @@ spring.cloud.stream.bindings:
   orderCreateEventProcessor-in-0:
     destination: order-create-events
     group: palmetto-app
+    consumer:
+      instanceCount: 3
+      instanceIndex: 0
+
+  orderCreateEventProcessor-in-1:
+    destination: order-create-events
+    group: palmetto-app
+    consumer:
+      instanceCount: 3
+      instanceIndex: 1
+
+  orderCreateEventProcessor-in-2:
+    destination: order-create-events
+    group: palmetto-app
+    consumer:
+      instanceCount: 3
+      instanceIndex: 2
 
   orderCreateEventProcessor-out-0:
     destination: order-status-change-events

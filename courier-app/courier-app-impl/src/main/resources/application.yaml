@@ -10,10 +10,14 @@ spring:
     serialization:
       write_dates_as_timestamps: false
 
-spring.cloud.stream.kafka.binder:
-  brokers: localhost:9092
-  min-partition-count: 3
-  auto-add-partitions: true
+spring.cloud.stream.kafka:
+  binder:
+    brokers: localhost:9092
+    min-partition-count: 3
+    auto-add-partitions: true
+  bindings:
+    orderStatusChangeEventProcessor-out-0.producer.configuration.key.serializer: org.apache.kafka.common.serialization.StringSerializer
+    orderStatusChanged-out-0.producer.configuration.key.serializer: org.apache.kafka.common.serialization.StringSerializer
 
 spring.cloud.stream.function.definition: orderStatusChangeEventProcessor
 

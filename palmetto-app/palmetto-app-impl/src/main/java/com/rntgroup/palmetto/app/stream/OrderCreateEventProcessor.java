@@ -8,6 +8,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
@@ -26,17 +27,19 @@ public class OrderCreateEventProcessor implements Function<Message<OrderCreateEv
     public Message<OrderStatusChangeEvent> apply(Message<OrderCreateEvent> inputMessage) {
         var orderCreateEvent = inputMessage.getPayload();
 
-        pizzaService.cookPizza(orderCreateEvent.getId(), orderCreateEvent.getPizzaId());
+        pizzaService.cookPizza(orderCreateEvent);
         log.info(String.format("Заказ с id = %s начал готовиться", orderCreateEvent.getId()));
 
         var orderStatusChangeEvent = new OrderStatusChangeEvent()
                 .setOrderId(orderCreateEvent.getId())
                 .setPizzaId(orderCreateEvent.getPizzaId())
                 .setPrevOrderStatus(OrderStatus.PENDING)
-                .setNewOrderStatus(OrderStatus.COOKING);
+                .setNewOrderStatus(OrderStatus.COOKING)
+                .setCorrelationId(orderCreateEvent.getCorrelationId());
 
         return MessageBuilder
                 .withPayload(orderStatusChangeEvent)
+                .setHeader(KafkaHeaders.MESSAGE_KEY, orderStatusChangeEvent.getCorrelationId())
                 .build();
     }
 }
