@@ -15,6 +15,7 @@ spring.cloud.stream.kafka:
     brokers: localhost:9092
     min-partition-count: 3
     auto-add-partitions: true
+    required-acks: 1
   bindings:
     orderStatusChangeEventProcessor-out-0.producer.configuration.key.serializer: org.apache.kafka.common.serialization.StringSerializer
     orderStatusChanged-out-0.producer.configuration.key.serializer: org.apache.kafka.common.serialization.StringSerializer
@@ -25,6 +26,23 @@ spring.cloud.stream.bindings:
   orderStatusChangeEventProcessor-in-0:
     destination: order-status-change-events
     group: courier-app
+    consumer:
+      instanceCount: 3
+      instanceIndex: 0
+
+  orderStatusChangeEventProcessor-in-1:
+    destination: order-status-change-events
+    group: courier-app
+    consumer:
+      instanceCount: 3
+      instanceIndex: 0
+
+  orderStatusChangeEventProcessor-in-2:
+    destination: order-status-change-events
+    group: courier-app
+    consumer:
+      instanceCount: 3
+      instanceIndex: 0
 
   orderStatusChangeEventProcessor-out-0:
     destination: order-status-change-events

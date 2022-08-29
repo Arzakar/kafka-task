@@ -24,6 +24,7 @@ spring.cloud.stream.kafka:
     brokers: localhost:9092
     min-partition-count: 3
     auto-add-partitions: true
+    required-acks: 1
   bindings:
     orderCreated-out-0.producer.configuration.key.serializer: org.apache.kafka.common.serialization.StringSerializer
 
